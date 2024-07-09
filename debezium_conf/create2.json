@@ -1,0 +1,139 @@
+{
+  "schema": {
+    "type": "struct",
+    "fields": [
+      {
+        "type": "struct",
+        "fields": [
+          { "type": "int64", "optional": false, "field": "id" },
+          { "type": "string", "optional": false, "field": "title" },
+          { "type": "int32", "optional": false, "field": "year" },
+          { "type": "string", "optional": false, "field": "director" },
+          {
+            "type": "struct",
+            "fields": [
+              { "type": "int32", "optional": false, "field": "scale" },
+              { "type": "bytes", "optional": false, "field": "value" }
+            ],
+            "optional": false,
+            "name": "io.debezium.data.VariableScaleDecimal",
+            "version": 1,
+            "doc": "Variable scaled decimal",
+            "field": "rating"
+          }
+        ],
+        "optional": true,
+        "name": "tutorial.public.movies.Value",
+        "field": "before"
+      },
+      {
+        "type": "struct",
+        "fields": [
+          { "type": "int64", "optional": false, "field": "id" },
+          { "type": "string", "optional": false, "field": "title" },
+          { "type": "int32", "optional": false, "field": "year" },
+          { "type": "string", "optional": false, "field": "director" },
+          {
+            "type": "struct",
+            "fields": [
+              { "type": "int32", "optional": false, "field": "scale" },
+              { "type": "bytes", "optional": false, "field": "value" }
+            ],
+            "optional": false,
+            "name": "io.debezium.data.VariableScaleDecimal",
+            "version": 1,
+            "doc": "Variable scaled decimal",
+            "field": "rating"
+          }
+        ],
+        "optional": true,
+        "name": "tutorial.public.movies.Value",
+        "field": "after"
+      },
+      {
+        "type": "struct",
+        "fields": [
+          { "type": "string", "optional": false, "field": "version" },
+          { "type": "string", "optional": false, "field": "connector" },
+          { "type": "string", "optional": false, "field": "name" },
+          { "type": "int64", "optional": false, "field": "ts_ms" },
+          {
+            "type": "string",
+            "optional": true,
+            "name": "io.debezium.data.Enum",
+            "version": 1,
+            "parameters": { "allowed": "true,last,false,incremental" },
+            "default": "false",
+            "field": "snapshot"
+          },
+          { "type": "string", "optional": false, "field": "db" },
+          { "type": "string", "optional": true, "field": "sequence" },
+          { "type": "int64", "optional": true, "field": "ts_us" },
+          { "type": "int64", "optional": true, "field": "ts_ns" },
+          { "type": "string", "optional": false, "field": "schema" },
+          { "type": "string", "optional": false, "field": "table" },
+          { "type": "int64", "optional": true, "field": "txId" },
+          { "type": "int64", "optional": true, "field": "lsn" },
+          { "type": "int64", "optional": true, "field": "xmin" }
+        ],
+        "optional": false,
+        "name": "io.debezium.connector.postgresql.Source",
+        "field": "source"
+      },
+      { "type": "string", "optional": false, "field": "op" },
+      { "type": "int64", "optional": true, "field": "ts_ms" },
+      { "type": "int64", "optional": true, "field": "ts_us" },
+      { "type": "int64", "optional": true, "field": "ts_ns" },
+      {
+        "type": "struct",
+        "fields": [
+          { "type": "string", "optional": false, "field": "id" },
+          { "type": "int64", "optional": false, "field": "total_order" },
+          {
+            "type": "int64",
+            "optional": false,
+            "field": "data_collection_order"
+          }
+        ],
+        "optional": true,
+        "name": "event.block",
+        "version": 1,
+        "field": "transaction"
+      }
+    ],
+    "optional": false,
+    "name": "tutorial.public.movies.Envelope",
+    "version": 2
+  },
+  "payload": {
+    "before": null,
+    "after": {
+      "id": 6,
+      "title": "new ?",
+      "year": 0,
+      "director": "le diable",
+      "rating": { "scale": 0, "value": "AQ==" }
+    },
+    "source": {
+      "version": "2.6.2.Final",
+      "connector": "postgresql",
+      "name": "tutorial",
+      "ts_ms": 1720556344520,
+      "snapshot": "false",
+      "db": "movies_db",
+      "sequence": "[null,\"26603920\"]",
+      "ts_us": 1720556344520577,
+      "ts_ns": 1720556344520577000,
+      "schema": "public",
+      "table": "movies",
+      "txId": 751,
+      "lsn": 26603920,
+      "xmin": null
+    },
+    "op": "c",
+    "ts_ms": 1720556344975,
+    "ts_us": 1720556344975100,
+    "ts_ns": 1720556344975100000,
+    "transaction": null
+  }
+}

@@ -1,0 +1,60 @@
+version: "3.9"
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: "rabbitmq"
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+  debezium:
+    image: quay.io/debezium/server:latest
+    restart: always
+    container_name: debezium
+    hostname: debezium
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    volumes:
+      - $PWD/debezium_conf/:/debezium/conf
+    healthcheck:
+      test: curl http://debezium:8080/q/health || exit 1
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # debezium-ui:
+  #   image: debezium/debezium-ui:latest
+  #   restart: always
+  #   container_name: debezium-ui
+  #   hostname: debezium-ui
+  #   depends_on:
+  #     debezium:
+  #       condition: service_healthy
+  #   ports:
+  #     - "8080:8080"
+  #   environment:
+  #     KAFKA_CONNECT_URIS: http://debezium:8083
+
+  postgres:
+    image: postgres:latest
+    restart: always
+    container_name: postgres
+    hostname: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: movies_db
+    command: ["postgres", "-c", "wal_level=logical"]
+    healthcheck:
+      test: ["CMD", "psql", "-U", "postgres", "-c", "SELECT 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./scripts:/docker-entrypoint-initdb.d
